@@ -1,0 +1,44 @@
+﻿@model bool
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>IsValid</title>
+</head>
+<body>
+    @if (Model)
+    {
+        <h4 style="color:purple">Code is Valid. Your registration is done. Go Login Page</h4>
+
+        <a class="btn btn-success float-right" href="/Login/Index">Go Login Page</a>
+    }
+    else
+    {
+        <div style="margin:1rem 0;">
+            <span>Enter the validation code</span>
+        </div>
+
+        <form action="#" method="post">
+            <div class="form-group">
+                @*@Html.TextBoxFor(x => x.Key, new { @class = "form-control", @placeholder = "enter code which sended yor mail", @required = "", @type = "text" })*@
+                <input id="myInput" class="form-control" placeholder="enter code which sended yor mail" required type="text" />
+            </div>
+            @*<div class="text-center">@{countdown }</div>*@
+            <p style="color:red" class="text-center"> @ViewBag.message </p>
+            <p style="color:green; margin:0px"> @ViewBag.message2 </p>
+
+            <div class="col-12">
+                <i onclick="submit()"  id="mybtn" class="btn btn-primary col-12">Validate Code</i> @*/Register/IsValid?validationCode=@val.ToString()&userInput=@val.ToString()*@
+            </div>
+
+        </form>
+
+        @*<button onclick="submit()" id="mybtn">git</button>*@
+    }
+</body>
+</html>

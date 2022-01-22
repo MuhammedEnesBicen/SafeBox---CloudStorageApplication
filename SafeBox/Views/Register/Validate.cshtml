@@ -1,0 +1,89 @@
+﻿@model EntityLayer.Concrete.User
+@{
+    ViewData["Title"] = "Validate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .login {
+        background-size: 16px 16px;
+        background-repeat: no-repeat;
+        background-position: left 10px center;
+        background-image: src(~/wwwroot/images/google.png);
+        background-color: #1a73e8;
+    }
+</style>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<link href="~/lib/font-awesome/css/fontawesome.css" rel="stylesheet" />
+
+
+@{
+    var val = "";
+}
+
+<div class="login"></div>
+<div class="row" style="background-color: #e1dcf5">
+    <div class="col-md-6">
+        <img class="img-fluid" src="~/images/SafeBox.jpg" />
+    </div>
+    <div class="col-md-6 my-auto">
+        <div id="maindiv" class="col-md-8">
+            <div style="margin:1rem 0;">
+                <span>Enter the validation code</span>
+            </div>
+
+            <form action="#" method="post">
+                <div class="form-group">
+                    @*@Html.TextBoxFor(x => x.Key, new { @class = "form-control", @placeholder = "enter code which sended yor mail", @required = "", @type = "text" })*@
+                    <input id="myInput" class="form-control" placeholder="enter code which sended yor mail" required type="text" />
+                </div>
+                @*<div class="text-center">@{countdown }</div>*@
+                <p style="color:red"> @ViewBag.message </p>
+                <p style="color:green; margin:0px"> @ViewBag.message2 </p>
+
+                <div class="col-12">
+                    <i onclick="submit()"  id="mybtn" class="btn btn-primary col-12">Validate Code</i> @*/Register/IsValid?validationCode=@val.ToString()&userInput=@val.ToString()*@
+                </div>
+
+            </form>
+
+            
+            @*{AdSoyad:@Model.AdSoyad,DogKodu:@Model.DogKodu+"",Key:@Model.Key,Posta:@Model.Posta,Sifre:@Model.Sifre,KullanıcıAdı:""}*@
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function submit() {
+        var code = $(myInput).val();
+        $.post('/Register/IsValid?userInput=' + code).then(
+            function (result) {
+                $('#maindiv').html(result);
+            });
+    }
+
+    @*$('#mybtn').click(function () {
+        var code = $(myInput).val();
+        $.post('/Register/IsValid?user=' +@Model + "&validationCode=" + code + '&userInput=' + "1234").then(
+            function (result) {
+                $('#maindiv').html(result);
+            });
+    });*@
+
+
+</script>
+
+@*$('#valInput').on('keyup', function () {
+    @val = ($('#valInput').text())
+        alert((@val));
+           if ($('#password').val() == $('#confirm_password').val()) {
+                $('#message').html('Matching').css('color', 'green');
+                $('#submitregister').html('').prop('disabled', false).css('background', '#fdb03d');
+            } else {
+                $('#message').html('Not Matching').css('color', 'red');
+                $('#submitregister').html('').prop('disabled', true).css({ 'background': "gray" });
+            }
+        });*@

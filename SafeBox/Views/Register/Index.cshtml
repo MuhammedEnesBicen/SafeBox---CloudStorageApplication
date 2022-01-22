@@ -1,0 +1,56 @@
+﻿@model EntityLayer.Concrete.User
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .login {
+        background-size: 16px 16px;
+        background-repeat: no-repeat;
+        background-position: left 10px center;
+        background-image: src(~/wwwroot/images/google.png);
+        background-color: #1a73e8;
+    }
+</style>
+
+
+
+<div class="login"></div>
+<div class="row">
+    <div class="col-md-6">
+        <img class="img-fluid" src="~/images/SafeBox.jpg" />
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-8">
+            <div style="margin:1rem 0;">
+                <span>Create an Account</span>
+                <span class="float-right">or <a href="/Login/Index/" style="color: #0061ff;">log in</a></span>
+            </div>
+            @using (Html.BeginForm("Index", "Register", FormMethod.Post))
+            {
+                <form action="#" method="post">
+                    <div class="form-group">
+                        @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @placeholder = "First Name", @required = "", @type = "text" })
+                    </div><div class="form-group">
+                        @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @placeholder = "Last Name", @required = "", @type = "text" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.TextBoxFor(x => x.Mail, new { @class = "form-control", @placeholder = "email", @required = "", @type = "email" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @type = "password", @placeholder = "password", @required = "" })
+                    </div>
+                    <p style="color:red"> @ViewBag.message </p>
+                    <div class="col-12 float-right">
+                        <input id="submitlogin" type="submit" class="form-control" value="Register" style="background: #0070e0; color: white">
+                    </div>
+
+                </form>
+            }
+
+        </div>
+    </div>
+</div>
+
