@@ -1,7 +1,7 @@
 # SafeBox---CloudStorageApplication
 
 Bu proje Fırat Üniversitesi Yazılım Mühendisliği Bölümü YMGK(Yazılım Mühendisliği Güncel Konular) dersi proje ödevi olarak geliştirilmiştir.
-Dersin Hocaları: Fatih Özkaynak - Vahdettin Cem Baydoğan
+Dersin Hocaları: Fatih Özkaynak - Vahdettin Cem Baydoğan <br />
 Öğrenci Bilgileri: Muhammed Enes Biçen - 180541012
 
 ### Bu projede kullanıcılara güvenli bir bulut depolama hizmeti vermek amaçlanmıştır.  Kullanıcıların sisteme yüklediği dosyalar AES algoritmasıyla şifrelenip bu şekilde FireBase' de saklanmakta ve kullanıcı dosyalarına erişmek istediğinde dosyaların şifreleri çözülmekte ve bu şekilde kullanıcıya sunulmakta.
@@ -10,14 +10,14 @@ Dersin Hocaları: Fatih Özkaynak - Vahdettin Cem Baydoğan
 
 
 
-Aşağıda projenin birkaç görüntüsü bulunmaktadır.
+Aşağıda projenin birkaç görüntüsü bulunmaktadır. <br />
 Here is some pictures of project
 
 
 # Login Page
 ![](https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/loginpage.jpg)<br />
 
-#Home Page
+# Home Page
 ![](https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/homepage.jpg)<br />
 
 # Profile Section
