@@ -1,0 +1,184 @@
+﻿@model EntityLayer.Concrete.User
+
+
+@{
+    List<string> GenderList = new List<string>() { "male,female" };
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<div class="row mt-4">
+    <div class="col-md-12 rounded-2 bg-light p-3">
+        <h4>My Informations</h4>
+        <div class="dropdown-divider"></div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(x => x.FirstName)
+                    @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @required = "", @type = "text", @id = "userFirstName" })
+                </div>
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(x => x.LastName)
+                    @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @required = "", @type = "text", @id = "userLastName" })
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input onclick="changeInfos()" type="submit" class="form-control col-12 btn btn-outline-success" value="Update" style="  "> @*#fdb03d*@
+            </div>
+        
+    </div>
+    
+    
+
+</div>
+
+@*email change section*@
+<div class="row mt-4">
+
+    <div class="col-md-6 rounded-2 bg-light p-3">
+        <h4>Change Email</h4>
+        <div class="dropdown-divider"></div>
+        <label>Your current email is: <b id="oldMailInfo">@Model.Mail</b></label>
+        <div class="form-group">
+            <label>New Email</label>
+            <input type="email" class="form-control" required id="newEmail" />
+        </div>
+        <div class="right-w3l">
+            <input id="submitemail" type="submit" class="form-control" value="Send me validation code" style="background: purple; color:white"> @*#fdb03d*@
+        </div>
+        <div class="form-group">
+            <label class="pt-5">Validation Code</label>
+            <input type="text" class="form-control" required id="valCode" />
+        </div>
+
+        <div id="submitValCode" class="right-w3l">
+            <input  type="submit" class="form-control" value="Change Email" style="background: gray; color:white" disabled> @*#fdb03d*@
+        </div>
+    </div>
+
+    <div class="col-md-6 rounded-2 bg-light p-3">
+        <h4>Change Password</h4>
+        <div class="dropdown-divider"></div>
+        <div class="form-group">
+            <label>Current Password</label>
+            <input type="password" class="form-control" required id="currentPassword" />
+        </div>
+        <div class="form-group">
+            <label>New Password</label>
+            <input type="password" class="form-control" required id="password" />
+        </div>
+        <div class="form-group">
+            <label>New Password Again</label>
+            <input type="password" class="form-control" required id="confirm_password" />
+            <span id='message'></span>
+        </div>
+        <p style="color:red"> @ViewBag.message </p>
+        <p style="color:green"> @ViewBag.message2 </p>
+
+        <div class="right-w3l">
+            <input id="submitregister" type="submit" class="form-control" value="Change Password" style="background: purple; color:white"> @*#fdb03d*@
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    $('#confirm_password').on('keyup', function () {
+        if ($('#password').val() == $('#confirm_password').val()) {
+            $('#message').html('Matching').css('color', 'green');
+            $('#submitregister').html('').prop('disabled', false).css('background', '#fdb03d');
+        } else {
+            $('#message').html('Not Matching').css('color', 'red');
+            $('#submitregister').html('').prop('disabled', true).css({ 'background': "gray" });
+        }
+    });
+
+    $('#submitregister').click(function () {
+        var password = $('#currentPassword').val()
+        var newPassword = $('#confirm_password').val()
+        if (newPassword.length < 4) {
+            $('#message').html('Password must be at least 4 characters.').css('color', 'red');
+        }
+        else {
+            $.post('/Home/ChangePassword?oldPassword=' + password + "&newPassword=" + newPassword)
+                .then(function (result) {
+                    if (result.result) {
+                        Swal.fire({
+                            title: 'Password Status',
+                            text: result.message,
+                            icon: 'success',
+
+                        })
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Password Status',
+                            text: result.message,
+                            icon: 'warning',
+
+                        })
+                    }
+
+                });
+        }
+    });
+
+    $('#submitemail').click(function () {
+        var newEmail = $('#newEmail').val();
+
+
+
+        $.post("/Home/ChangeEmail?newMail=" + newEmail +"&valCode="+null+ "&whichOperation=" + "newEmailInput")
+            .then(function (result) {
+                if (result.result) {
+                    $('#submitValCode').html('<input  type="submit" class="form-control" value="Change Email" style="background: yellow; color:white" enabled>')
+                }
+                Swal.fire({
+                    title: 'Email Change',
+                    text: result.message,
+                    icon: 'info',
+                })
+
+            });
+
+    });
+
+    $('#submitValCode').click(function () {
+        var newEmail = $('#newEmail').val();
+        var valCode = $('#valCode').val();
+
+        $.post("/Home/ChangeEmail?newMail=" + newEmail + "&valCode=" + valCode + "&whichOperation=" + "valCode")
+            .then(function (result) {
+                if (result.result) {
+                    
+                    $('#oldMailInfo').html(newEmail);
+                }
+                Swal.fire({
+                    title: 'Email Change',
+                    text: result.message,
+                    icon: 'info',
+                })
+
+            });
+
+    });
+
+    function changeInfos() {
+        var userFirstName = $('#userFirstName').val();
+        var userLastName = $('#userLastName').val();
+
+        $.post("/Home/ChangeUserInfos?firstName=" + userFirstName + "&lastName=" + userLastName)
+            .then(function (result) {
+                Swal.fire({
+                    title: 'Info Change',
+                    text: result.message,
+                    icon: 'info',
+                })
+            });
+
+    }
+
+    
+</script>
+

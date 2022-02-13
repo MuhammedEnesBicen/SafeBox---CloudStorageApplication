@@ -11,9 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{86808E52-9166-4549-B02D-4FA429E711FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLayer", "CoreLayer\CoreLayer.csproj", "{9FCE6E5B-D081-45DB-94AB-68AA92120DF4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleLayer", "ConsoleLayer\ConsoleLayer.csproj", "{F9D06083-E00D-4D27-BB32-04F05A606EA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleLayer", "ConsoleLayer\ConsoleLayer.csproj", "{F9D06083-E00D-4D27-BB32-04F05A606EA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +35,6 @@ Global
 		{86808E52-9166-4549-B02D-4FA429E711FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86808E52-9166-4549-B02D-4FA429E711FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86808E52-9166-4549-B02D-4FA429E711FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9FCE6E5B-D081-45DB-94AB-68AA92120DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9FCE6E5B-D081-45DB-94AB-68AA92120DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9FCE6E5B-D081-45DB-94AB-68AA92120DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FCE6E5B-D081-45DB-94AB-68AA92120DF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9D06083-E00D-4D27-BB32-04F05A606EA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9D06083-E00D-4D27-BB32-04F05A606EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9D06083-E00D-4D27-BB32-04F05A606EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,10 +1,7 @@
 ﻿using EntityLayer.Concrete;
 using Firebase.Storage;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Concrete
@@ -13,18 +10,20 @@ namespace DataAccessLayer.Concrete
     {
         FirebaseStorage firebaseStorage = new FirebaseStorage("safebox-cd51f.appspot.com");// if "gs://" be head of bucket string, it wont work!!!
         FirebaseHelper firebaseHelper = new FirebaseHelper();
+
         public async Task SendFileToFirebase(Stream file, string fileName, string contentType, string userMail)
         {
             string userFbKey = await firebaseHelper.GetUserFBKey(userMail);
             var imageUrl = await firebaseStorage
-            .Child("-Ms11qwgtxC1vDIkHbZq")
+            .Child(userFbKey)
             .Child(fileName)
             .PutAsync(file);
 
             if (!String.IsNullOrEmpty(imageUrl))
             {
-                var File = new StorageFileInfo { Name = fileName, DownloadUrl = imageUrl.ToString(), Extension = contentType };
-                await firebaseHelper.AddFile(File);
+                var File = new StorageFileInfo { Name = fileName, DownloadUrl = imageUrl.ToString(), Extension = contentType, FileSize = file.Length / 1000 };
+                await firebaseHelper.AddFile(File, userMail);
+
             }
 
         }
@@ -33,13 +32,12 @@ namespace DataAccessLayer.Concrete
         {
             string userFbKey = await firebaseHelper.GetUserFBKey(userMail);
             await firebaseStorage
- .Child("-Ms11qwgtxC1vDIkHbZq")
+ .Child(userFbKey)
  .Child(fileName)
  .DeleteAsync();
 
             await firebaseHelper.DeleteFile(fileName, userMail);
 
         }
-
     }
 }

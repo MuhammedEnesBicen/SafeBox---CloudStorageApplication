@@ -12,15 +12,10 @@ namespace DataAccessLayer.Concrete
 {
     public class FirebaseHelper
     {
-        FirebaseClient firebase;
-        public FirebaseHelper()
-        {
-            firebase = new FirebaseClient("https://safebox-cd51f-default-rtdb.europe-west1.firebasedatabase.app/");
-        }
+        FirebaseClient firebase = new FirebaseClient("https://safebox-cd51f-default-rtdb.europe-west1.firebasedatabase.app/");
 
         public async Task<List<User>> GetAllUsers()
         {
-
             return (await firebase
               .Child("Users")
               .OnceAsync<User>()).Select(item => new User
@@ -35,20 +30,9 @@ namespace DataAccessLayer.Concrete
 
         public async Task AddUser(User user)
         {
-
             await firebase
               .Child("Users")
-              .PostAsync(user); //new User() { UserId = personId, Name = name }
-        }
-
-        public async Task<User> GetUser(int userId)
-        {
-            User user = (await firebase
-              .Child("Users")
-              .OnceAsync<User>()).Where(a => a.Object.UserId == userId).FirstOrDefault().Object;
-
-            return user;
-
+              .PostAsync(user);
         }
 
         public async Task<User> GetUserWithMail(string mail)
@@ -63,9 +47,9 @@ namespace DataAccessLayer.Concrete
         //brings users firebase key
         public async Task<string> GetUserFBKey(string mail)
         {
-            string key= (await firebase
-  .Child("Users")
-  .OnceAsync<User>()).Where(a => a.Object.Mail == mail).FirstOrDefault()?.Key;
+            string key = (await firebase
+                .Child("Users")
+                .OnceAsync<User>()).Where(a => a.Object.Mail == mail).FirstOrDefault()?.Key;
 
             return key;
         }
@@ -79,7 +63,7 @@ namespace DataAccessLayer.Concrete
             await firebase
               .Child("Users")
               .Child(toUpdateUser.Key)
-              .PutAsync(user); //new User() { UserId = personId, Name = name }
+              .PutAsync(user);
         }
 
         public async Task DeleteUser(int userId)
@@ -91,43 +75,60 @@ namespace DataAccessLayer.Concrete
 
         }
 
+        #region FileOperations
 
         public async Task<List<StorageFileInfo>> GetUserFiles(string userMail)
         {
             string userFbKey = await GetUserFBKey(userMail);
-            /*content types
-             - file.ContentType = "text/plain"
-             */
-            // await AddFile();
 
             return (await firebase
               .Child("Files")
-              .Child("-Ms11qwgtxC1vDIkHbZq")
+              .Child(userFbKey)
               .OnceAsync<StorageFileInfo>()).Select(item => new StorageFileInfo
               {
                   Name = item.Object.Name,
                   DownloadUrl = item.Object.DownloadUrl,
-                  Extension = item.Object.Extension
+                  LocalDownloadUrl = "files/" + userFbKey + "/decrypted/" +
+                        item.Object.Name,
+                  Extension = item.Object.Extension,
+                  FileSize = item.Object.FileSize
 
               }).ToList();
         }
 
-        public async Task AddFile(StorageFileInfo file)
+        public async Task AddFile(StorageFileInfo file, string userMail)
         {
+            string userFbKey = await GetUserFBKey(userMail);
+
             await firebase
                             .Child("Files")
-              .Child("-Ms11qwgtxC1vDIkHbZq")
-              .PostAsync(file); //new User() { UserId = personId, Name = name }
+              .Child(userFbKey)
+              .PostAsync(file);
+
+            //changing total space used by user
+            var user = GetUserWithMail(userMail).Result;
+            user.TotalSpaceUsed += file.FileSize / 1000;
+            await UpdateUser(user);
         }
 
         public async Task DeleteFile(string fileName, string userMail)
         {
+            string userFbKey = await GetUserFBKey(userMail);
+
             var toDeleteFile = (await firebase
   .Child("Files")
-  .Child("-Ms11qwgtxC1vDIkHbZq")
+  .Child(userFbKey)
   .OnceAsync<StorageFileInfo>()).Where(a => a.Object.Name == fileName).FirstOrDefault();
-            await firebase.Child("Files").Child("-Ms11qwgtxC1vDIkHbZq")
+            await firebase.Child("Files").Child(userFbKey)
                 .Child(toDeleteFile.Key).DeleteAsync();
+
+            //changing total space used by user
+            var user = GetUserWithMail(userMail).Result;
+            user.TotalSpaceUsed -= toDeleteFile.Object.FileSize / 1000;
+            await UpdateUser(user);
+
         }
+
+        #endregion
     }
 }

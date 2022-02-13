@@ -3,28 +3,14 @@
     ViewData["Title"] = "Index";
 }
 
-<style>
-    .login {
-        background-size: 16px 16px;
-        background-repeat: no-repeat;
-        background-position: left 10px center;
-        background-image: src(~/wwwroot/images/google.png);
-        background-color: #1a73e8;
-    }
-</style>
-
-<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-<link href="~/lib/font-awesome/css/fontawesome.css" rel="stylesheet" />
-
-<div class="login"></div>
-<div class="row">
+<div class="row pb-5">
     <div class="col-md-6">
         <img class="img-fluid" src="~/images/SafeBox.jpg" />
     </div>
     <div class="col-md-6">
         <div class="col-md-8">
             <div style="margin:1rem 0;">
-                <span >Sign In</span> 
+                <span>Sign In</span>
                 <span class="float-right">or <a style="color: #0061ff;" href="/Register/Index/">create an account</a></span>
             </div>
             @using (Html.BeginForm("Index", "Login", FormMethod.Post))
@@ -32,14 +18,14 @@
                 <form action="#" method="post">
 
                     <div class="form-group">
-                        <input id="ggllogin" type="button" class="form-control btn-sm" value="Sign in with Google" style="background-color: #0070e0; color:white">
+                        <input onclick="gglaplLogin()" type="button" class="form-control btn-sm" value="Sign in with Google" style="background-color: #0070e0; color:white">
                     </div>
                     <div class="form-group">
-                        <input id="apllogin" type="button" class="form-control btn-sm" value="Sign in with Apple" style="background-color: #000; color:white">
+                        <input onclick="gglaplLogin()" type="button" class="form-control btn-sm" value="Sign in with Apple" style="background-color: #000; color:white">
                     </div>
-                    <p class="text-center dont-do mt-3">(Or)</p>
+                    <p class="text-center mt-3">(Or)</p>
 
-                    
+
                     <div class="form-group">
                         @Html.TextBoxFor(x => x.Mail, new { @class = "form-control", @placeholder = "email", @required = "", @type = "email" })
                     </div>
@@ -47,20 +33,44 @@
                         @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @type = "password", @placeholder = "password", @required = "" })
                     </div>
                     <p style="color:red"> @ViewBag.message </p>
-                    <div class="col-6 float-right">
-                        <input id="submitlogin" type="submit" class="form-control" value="Log in" style="background: #0070e0; color: white">
-                    </div>
-                    <div class="sub-w3l">
+                    <div>
                         <div class="custom-control custom-checkbox mr-sm-2">
-                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-                            <label class="custom-control-label" for="customControlAutosizing">Remember me?</label>
-                        </div>
-                    </div>
+                            @if (ViewBag.rememberMe)
+                            {
+                                <input type="checkbox" class="custom-control-input" id="rememberme" checked>
+                                <label class="custom-control-label" for="rememberme">Remember me?</label>
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="custom-control-input" id="rememberme">
+                                <label class="custom-control-label" for="rememberme">Remember me?</label>
 
-                    @*<i class="fab fa-google-plus-g"></i>*@
+                            }
+                        </div>
+
+                        <div class="w-50 float-right p-0 m-0 pt-1">
+                            <input id="submitlogin" type="submit" class="form-control" value="Log in" style="background: #0070e0; color: white">
+                        </div>
+
+                    </div>
                 </form>
             }
 
         </div>
     </div>
 </div>
+
+<script>
+    $('#rememberme').change(function () {
+        var value = $('#rememberme').is(":checked");
+        $.post("/Login/ChangeRememberMeOption?value=" + value);
+    });
+
+    function gglaplLogin() {
+        Swal.fire({
+            title: 'Sory',
+            text: 'Google & Apple login areas included just for aesthetic purposes. SafeBox currently does not support login with google or apple. We are sory.',
+            icon: 'info',
+        })
+    }
+</script>

@@ -6,6 +6,13 @@ namespace ConsoleLayer
 {
     class Program
     {
+        /*
+         THE CONSOLE LAYER WAS BUILT TO EASY TESTING THAT
+        FUNCTIONS ARE WORKING CORRECTLY.
+        THIS LAYER HAS NO OTHER PURPOSE 
+         */
+
+
         static void Main(string[] args)
         {
             FirebaseHelper fb = new FirebaseHelper();
@@ -34,7 +41,7 @@ namespace ConsoleLayer
             //{
             //    Console.WriteLine(item.Name+" "+item.FolderPath);
             //}
-            fbStorage.GetUserFiles().Wait();
+            
         }
     }
 }

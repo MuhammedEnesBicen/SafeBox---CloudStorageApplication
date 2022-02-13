@@ -43,6 +43,7 @@ namespace SafeBox
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
+            app.UseCookiePolicy();
             app.UseRouting();
 
             app.UseAuthorization();
@@ -51,7 +52,7 @@ namespace SafeBox
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Promotion}/{action=Index}/{id?}");
             });
         }
     }

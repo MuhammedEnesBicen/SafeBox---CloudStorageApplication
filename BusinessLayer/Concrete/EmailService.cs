@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EntityLayer.Concrete;
 
 namespace BusinessLayer.Concrete
 {
     public class EmailService
     {
-        public string SendEmail(string email)
+        public ResultModel SendEmail(string email)
         {
-            string validationCode="";
+            string validationCode = "";
 
             Random rnd = new Random();
             string mesaj = "";
@@ -21,7 +22,7 @@ namespace BusinessLayer.Concrete
                 rast = rnd.Next(10).ToString();
                 mesaj += rast;
             }
-            validationCode = mesaj;
+
             try
             {
 
@@ -41,14 +42,14 @@ namespace BusinessLayer.Concrete
                 SmtpServer.Credentials = new System.Net.NetworkCredential("ymgk.ymh459@gmail.com", "kriptoYMH259");
 
                 SmtpServer.Send(maila);
-
+                validationCode = mesaj;
 
             }
             catch (Exception ex)
             {
-
+                return new ResultModel { Result = false, Message = ex.Message };
             }
-            return validationCode;
+            return new ResultModel {Result=true,Message= validationCode };
         }
     }
 }

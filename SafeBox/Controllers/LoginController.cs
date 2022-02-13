@@ -13,26 +13,71 @@ namespace SafeBox.Controllers
     public class LoginController : Controller
     {
         FirebaseHelper firebase = new FirebaseHelper();
+        static bool rememberMe = false; //is user click remember me checkbox?
+        static User user; // if user had wanted be remembered, this object will be initialized
+
         public IActionResult Index()
         {
+            String mail = Request.Cookies["userMailCookie"];
+            if (mail != null)
+            {
+                String password = Request.Cookies["userPasswordCookie"];
+                rememberMe = true;
+                ViewBag.rememberMe = rememberMe;
+                user = new User { Mail = mail, Password = password };
+                return View(user);
+            }
+
+            ViewBag.rememberMe = rememberMe;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(User user)
+        public IActionResult Index(User postUser)
         {
-            var result = firebase.GetUserWithMail(user.Mail).Result;
+            ViewBag.rememberMe = rememberMe;
+            var result = firebase.GetUserWithMail(postUser.Mail).Result;
 
-            if(result!= null && result.Password == user.Password)
+            if(result!= null && result.Password == postUser.Password)
             {
-                HttpContext.Session.SetString("userMail", user.Mail);
+                if (rememberMe) CookieOperations("save", postUser.Mail.ToString(), postUser.Password.ToString());
+                if (!rememberMe && user != null) CookieOperations("delete", "", "");
+
+                HttpContext.Session.SetString("userMail", postUser.Mail);
                 return RedirectToAction("Index","Home");
             }
 
             if(result == null) { ViewBag.message = "There is no such a user"; }
-            else if(result.Password != user.Password) { ViewBag.message = "Password is invalid"; }
+            else if(result.Password != postUser.Password) { ViewBag.message = "Password is invalid"; }
 
-            return View();
+
+            return View(postUser);
+        }
+
+
+        public void CookieOperations(string job, string email, string password)
+        {
+            switch (job)
+            {
+                case "save":
+                    CookieOptions cookie = new CookieOptions();
+                    cookie.Expires = DateTime.Now.AddMonths(1);
+                    Response.Cookies.Append("userMailCookie", email, cookie);
+                    Response.Cookies.Append("userPasswordCookie", password, cookie);
+                    break;
+                case "delete":
+                    Response.Cookies.Delete("userMailCookie");
+                    Response.Cookies.Delete("userPasswordCookie");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        [HttpPost]
+        public void ChangeRememberMeOption(bool value)
+        {
+            rememberMe = value;
         }
     }
 }

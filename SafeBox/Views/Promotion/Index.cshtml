@@ -1,8 +1,6 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
 
 <html>
@@ -14,8 +12,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
     <style>
-        .footer li a{
-            color:white;
+        .footer li a {
+            color: white;
         }
     </style>
 </head>
@@ -23,16 +21,14 @@
 
     <header>
         <nav class="container-fluid shadow">
-            <div class="row mb-1 border-bottom p-1 " style="align-items:center;">
-                <div class="col-md-3 d-flex justify-content-end"><img class="img-fluid px-1" src="~/images/logo.svg" style="height:2rem;" /><span style="font-size:2rem; vertical-align:middle;  color:dodgerblue">SafeBox</span></div>
-                <div class="col-md-6">
-
+            <div class="row mb-1 border-bottom p-1 justify-content-between" style="align-items:center;">
+                <div class="col-sm-2 d-flex justify-content-center">
+                    <img class="img-fluid px-1" src="~/images/logo.svg" style="height:2rem;" />
+                    <span style="font-size:1.5rem; vertical-align:top;  color:dodgerblue;">SafeBox</span>
                 </div>
 
-                <div class="col-md-3 d-flex p-0">
-                    <div class="row d-flex justify-content-start col-md-12">
-                        <div class="btn btn-primary">Go Your SafeBox</div>
-                    </div>
+                <div class="col-sm-2 p-0 d-flex justify-content-center">
+                    <a href="/Login/Index">  <div class="btn btn-primary">Go Your SafeBox</div></a>
                 </div>
             </div>
         </nav>
@@ -51,26 +47,26 @@
                 <div class="carousel-item active">
                     <img class="d-block w-100" src="~/images/carousel-0.jpg" alt="First slide">
                     <div class="carousel-caption d-none d-md-block rounded-pill" style="background-color: rgba(119, 136, 153, 0.397); ">
-                        <h5>One safe place for all your files</h5>
+                        <h3>One safe place for all your files</h3>
                         <p>Upload photos, videos, documents and other files that are important to you to SafeBox. Get started with up to 1GB of storage. Plus it's free.</p>
-                        <div class="btn btn-success">Go Your SafeBox</div>
-                    </div>
+                        <a href="/Login/Index"><div class="btn btn-success">Go Your SafeBox</div></a>
+</div>
                 </div>
                 <div class="carousel-item">
                     <img class="d-block w-100" src="~/images/carousel-1.jpg" alt="Second slide">
 
                     <div class="carousel-caption d-none d-md-block rounded-pill" style="background-color: rgba(119, 136, 153, 0.397); ">
-                        <h5>Everything you need, wherever you go</h5>
+                        <h3 >Everything you need, wherever you go</h3>
                         <p>With SafeBox, your files are with you wherever you go. You can organize, organize and share your files by going to safebox.com on any computer or using the SafeBox mobile app if you're on the go.</p>
-                        <div class="btn btn-success">Go Your SafeBox</div>
+                        <a href="/Login/Index"><div class="btn btn-success">Go Your SafeBox</div></a>
                     </div>
                 </div>
                 <div class="carousel-item">
                     <img class="d-block w-100" src="~/images/carousel-2.jpg" alt="Third slide">
                     <div class="carousel-caption d-none d-md-block rounded-pill" style="background-color: rgba(119, 136, 153, 0.397); ">
-                        <h5>create something</h5>
+                        <h3>Create something</h3>
                         <p>SafeBox has built-in apps to help you get things done. Write a short story. Create a shared budget with your roommates. Sign and fax an important document. Everything you do is automatically saved in SafeBox.</p>
-                        <div class="btn btn-success">Go Your SafeBox</div>
+                        <a href="/Login/Index"><div class="btn btn-success">Go Your SafeBox</div></a>
                     </div>
                 </div>
             </div>
@@ -204,7 +200,7 @@
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <div class="left">
-                                    <p>Copyright © 2020  <b>SafeBox</b>  -  All Rights Reserved.</p>
+                                    <p>Copyright © 2022  <b>SafeBox</b>  -  All Rights Reserved.</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
