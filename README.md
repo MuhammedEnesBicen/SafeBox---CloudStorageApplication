@@ -18,7 +18,7 @@ Here is some pictures of project
 ![](https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/loginpage.jpg)<br />
 
 # Home Page
-![](https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/homepage.jpg)<br />
+![](https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/homepage.png)<br />
 
 # Profile Section
 ![](https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/profilesection.jpg)<br />
@@ -31,3 +31,11 @@ Here is some pictures of project
 
 # Email Validation Page
 ![](https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/emailvalidationpage.jpg)<br />
+
+# Mobile 
+<div style="float:left;">
+<img src="https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/mobil1.jpeg" width="200px">
+  <img src="https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/mobil2.jpeg" width="200px">
+  <img src="https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/mobil3.jpeg" width="200px">
+
+</div>
