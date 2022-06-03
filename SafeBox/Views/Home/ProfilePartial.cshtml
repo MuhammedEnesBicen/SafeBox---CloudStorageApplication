@@ -6,12 +6,16 @@
 }
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<div class="row mt-4">
+
+@*Information change section*@
+<div class="container-fluid g-0">
+<div class="row p-0">
+
     <div class="col-md-12 rounded-2 bg-light p-3">
         <h4>My Informations</h4>
         <div class="dropdown-divider"></div>
 
-            <div class="row">
+            <div class="row p-0">
                 <div class="form-group col-md-6">
                     @Html.LabelFor(x => x.FirstName)
                     @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @required = "", @type = "text", @id = "userFirstName" })
@@ -27,13 +31,12 @@
             </div>
         
     </div>
-    
-    
-
 </div>
 
+</div>
+<div class="container-fluid g-0">
 @*email change section*@
-<div class="row mt-4">
+<div class="row mt-4 p-0">
 
     <div class="col-md-6 rounded-2 bg-light p-3">
         <h4>Change Email</h4>
@@ -79,10 +82,8 @@
             <input id="submitregister" type="submit" class="form-control" value="Change Password" style="background: purple; color:white"> @*#fdb03d*@
         </div>
     </div>
-
-
 </div>
-
+</div>
 <script>
     $('#confirm_password').on('keyup', function () {
         if ($('#password').val() == $('#confirm_password').val()) {

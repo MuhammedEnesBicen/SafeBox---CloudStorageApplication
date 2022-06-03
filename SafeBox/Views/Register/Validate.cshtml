@@ -18,9 +18,6 @@
 <link href="~/lib/font-awesome/css/fontawesome.css" rel="stylesheet" />
 
 
-@{
-    var val = "";
-}
 
 <div class="login"></div>
 <div class="row" style="background-color: #e1dcf5">
@@ -33,10 +30,10 @@
                 <span>Enter the validation code</span>
             </div>
 
-            <form action="#" method="post">
+            <div>
                 <div class="form-group">
                     @*@Html.TextBoxFor(x => x.Key, new { @class = "form-control", @placeholder = "enter code which sended yor mail", @required = "", @type = "text" })*@
-                    <input id="myInput" class="form-control" placeholder="enter code which sended yor mail" required type="text" />
+                    <input id="myInput" class="form-control" placeholder="enter code which sended yor mail" required type="text" onsubmit="submit()"/>
                 </div>
                 @*<div class="text-center">@{countdown }</div>*@
                 <p style="color:red"> @ViewBag.message </p>
@@ -46,10 +43,10 @@
                     <i onclick="submit()"  id="mybtn" class="btn btn-primary col-12">Validate Code</i> @*/Register/IsValid?validationCode=@val.ToString()&userInput=@val.ToString()*@
                 </div>
 
-            </form>
+            </div>
 
             
-            @*{AdSoyad:@Model.AdSoyad,DogKodu:@Model.DogKodu+"",Key:@Model.Key,Posta:@Model.Posta,Sifre:@Model.Sifre,KullanıcıAdı:""}*@
+            
         </div>
     </div>
 </div>
@@ -65,13 +62,6 @@
             });
     }
 
-    @*$('#mybtn').click(function () {
-        var code = $(myInput).val();
-        $.post('/Register/IsValid?user=' +@Model + "&validationCode=" + code + '&userInput=' + "1234").then(
-            function (result) {
-                $('#maindiv').html(result);
-            });
-    });*@
 
 
 </script>

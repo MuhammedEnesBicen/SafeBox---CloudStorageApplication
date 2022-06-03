@@ -1,18 +1,15 @@
 ﻿using EntityLayer.Concrete;
 using Firebase.Database;
 using Firebase.Database.Query;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Concrete
 {
     public class FirebaseHelper
     {
-        FirebaseClient firebase = new FirebaseClient("https://safebox-cd51f-default-rtdb.europe-west1.firebasedatabase.app/");
+        FirebaseClient firebase = new FirebaseClient("https://safebox-49bc8-default-rtdb.europe-west1.firebasedatabase.app/");
 
         public async Task<List<User>> GetAllUsers()
         {
@@ -20,7 +17,6 @@ namespace DataAccessLayer.Concrete
               .Child("Users")
               .OnceAsync<User>()).Select(item => new User
               {
-                  UserId = item.Object.UserId,
                   FirstName = item.Object.FirstName,
                   LastName = item.Object.LastName,
                   Mail = item.Object.Mail,
@@ -58,7 +54,7 @@ namespace DataAccessLayer.Concrete
         {
             var toUpdateUser = (await firebase
               .Child("Users")
-              .OnceAsync<User>()).Where(a => a.Object.UserId == user.UserId).FirstOrDefault();
+              .OnceAsync<User>()).Where(a => a.Object.Mail == user.Mail).FirstOrDefault();
 
             await firebase
               .Child("Users")
@@ -66,11 +62,22 @@ namespace DataAccessLayer.Concrete
               .PutAsync(user);
         }
 
-        public async Task DeleteUser(int userId)
+        public async Task UpdateUserMail(string oldMail,User user)
+        {
+            var toUpdateUser = (await firebase
+              .Child("Users")
+              .OnceAsync<User>()).Where(a => a.Object.Mail == oldMail).FirstOrDefault();
+
+            await firebase
+              .Child("Users")
+              .Child(toUpdateUser.Key)
+              .PutAsync(user);
+        }
+        public async Task DeleteUser(string userMail)
         {
             var toDeleteUser = (await firebase
               .Child("Users")
-              .OnceAsync<User>()).Where(a => a.Object.UserId == userId).FirstOrDefault();
+              .OnceAsync<User>()).Where(a => a.Object.Mail == userMail).FirstOrDefault();
             await firebase.Child("Users").Child(toDeleteUser.Key).DeleteAsync();
 
         }
@@ -105,7 +112,7 @@ namespace DataAccessLayer.Concrete
               .Child(userFbKey)
               .PostAsync(file);
 
-            //changing total space used by user
+            //changing used total space by user
             var user = GetUserWithMail(userMail).Result;
             user.TotalSpaceUsed += file.FileSize / 1000;
             await UpdateUser(user);
@@ -124,7 +131,7 @@ namespace DataAccessLayer.Concrete
 
             //changing total space used by user
             var user = GetUserWithMail(userMail).Result;
-            user.TotalSpaceUsed -= toDeleteFile.Object.FileSize / 1000;
+            user.TotalSpaceUsed -= toDeleteFile.Object.FileSize / 1024;
             await UpdateUser(user);
 
         }

@@ -38,10 +38,10 @@ namespace SafeBox.Controllers
             ViewBag.rememberMe = rememberMe;
             var result = firebase.GetUserWithMail(postUser.Mail).Result;
 
-            if(result!= null && result.Password == postUser.Password)
+            if(result is not null && result.Password == postUser.Password)
             {
-                if (rememberMe) CookieOperations("save", postUser.Mail.ToString(), postUser.Password.ToString());
-                if (!rememberMe && user != null) CookieOperations("delete", "", "");
+                if (rememberMe) CookieOperations("save", postUser.Mail, postUser.Password);
+                if (!rememberMe && user is not null) CookieOperations("delete", "", "");
 
                 HttpContext.Session.SetString("userMail", postUser.Mail);
                 return RedirectToAction("Index","Home");
@@ -54,10 +54,15 @@ namespace SafeBox.Controllers
             return View(postUser);
         }
 
-
-        public void CookieOperations(string job, string email, string password)
+        [HttpGet]
+        public IActionResult LogOut()
         {
-            switch (job)
+            HttpContext.Session.Remove("userMail");
+            return RedirectToAction("Index");
+        }
+        public void CookieOperations(string operation, string email, string password)
+        {
+            switch (operation)
             {
                 case "save":
                     CookieOptions cookie = new CookieOptions();

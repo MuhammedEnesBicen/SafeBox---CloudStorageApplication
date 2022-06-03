@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SafeBox.Middlewares;
+using SafeBox.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,8 @@ namespace SafeBox
         {
             services.AddControllersWithViews();
             services.AddSession();
+
+            services.AddSingleton<ILoggerService, ConsoleLogger>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,12 +52,16 @@ namespace SafeBox
 
             app.UseAuthorization();
 
+            app.UseCustomExceptionMiddle();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Promotion}/{action=Index}/{id?}");
             });
+
+            
         }
     }
 }

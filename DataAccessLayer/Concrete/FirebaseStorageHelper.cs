@@ -8,7 +8,7 @@ namespace DataAccessLayer.Concrete
 {
     public class FirebaseStorageHelper
     {
-        FirebaseStorage firebaseStorage = new FirebaseStorage("safebox-cd51f.appspot.com");// if "gs://" be head of bucket string, it wont work!!!
+        FirebaseStorage firebaseStorage = new FirebaseStorage("safebox-49bc8.appspot.com");// if "gs://" be head of bucket string, it wont work!!!
         FirebaseHelper firebaseHelper = new FirebaseHelper();
 
         public async Task SendFileToFirebase(Stream file, string fileName, string contentType, string userMail)
@@ -23,7 +23,6 @@ namespace DataAccessLayer.Concrete
             {
                 var File = new StorageFileInfo { Name = fileName, DownloadUrl = imageUrl.ToString(), Extension = contentType, FileSize = file.Length / 1000 };
                 await firebaseHelper.AddFile(File, userMail);
-
             }
 
         }

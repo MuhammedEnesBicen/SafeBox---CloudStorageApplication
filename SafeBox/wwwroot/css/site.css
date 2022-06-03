@@ -1,6 +1,20 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+header{
+    position:sticky;
+    top:0px;
+    z-index:12;
+}
+
+// TODO: footer stil doesnt work
+footer {
+    position: sticky;
+    bottom: 0px;
+    left:0px;
+    z-index: 12;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;

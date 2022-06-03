@@ -1,24 +1,72 @@
 ﻿@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
 
 body {
-    background-color: #eee;
     font-family: "Poppins", sans-serif;
-    font-weight: 300
+    font-weight: 300;
+    
 }
 
 /*.height {
     height: 100vh
 }*/
 
+
+/* NavBar */
+header {
+    position:sticky;
+    top:0px;
+    left:0px;
+    z-index:10;
+    background-color:white;
+    
+}
+nav > div:first-child {
+    padding: 10px 0px;
+
+}
+
+
+
+nav > div{
+    display:flex;align-items:center; 
+    
+}
+nav > div[class~="row"] > :nth-child(1) > img {
+    height: 2rem;
+    
+}
+
+nav > div[class~="row"] > :nth-child(1) > span {
+    font-size: 2rem;
+    vertical-align: middle;
+    color: dodgerblue
+}
+
+
+    nav > div[class~="row"] > :nth-child(1) {
+        /*display:list-item;*/
+        /*background-color:red;*/
+        white-space:nowrap;
+    }
+
+nav > div[class~="row"] > :nth-child(2) {
+    
+}
+
+nav > div[class~="row"] > :nth-child(3) {
+    
+}
+
+
 .search {
     position: relative;
-    box-shadow: 0 0 40px rgba(51, 51, 51, .1)
+    /*box-shadow: 0 0 40px rgba(51, 51, 51, .1)*/
 }
 
     .search input {
-        height: 50px;
-        text-indent: 25px;
-        border: 2px solid #d6d4d4
+        height: 40px;
+        text-indent: 35px;
+        background-color:  #f1f3f4;
     }
 
         .search input:focus {
@@ -28,25 +76,43 @@ body {
 
     .search .fa-search {
         position: absolute;
-        top: 20px;
+        top: 15px;
         left: 16px
     }
 
     .search button {
         position: absolute;
-        top: 5px;
-        right: 5px;
+        top: 0px;
+        right: 0px;
         height: 40px;
-        width: 100px;
+        width: 65px;
+        border: none;
+        background-color: transparent;
+        color: white;
+        background-color: cornflowerblue;
+        border-radius: 0px 3px 3px 0;
+    }
+    .search button:hover{ background-color:darkblue;
+                          color:white; }
+
+/* SideBar*/
+
+
+
+.badge i {
+    padding: 3px;
+    color: yellow;
+}
+
+.badge {
+    padding: 10px;
+}
+
+
+/* Responsive*/
+@media (max-width: 576px) {
+    nav > div[class~="row"] > :nth-child(2) {
+        order: 3;
         
     }
-
-
-
-.badge i{
-    padding:3px;
-    color:yellow;
-}
-.badge{
-    padding:10px;
 }

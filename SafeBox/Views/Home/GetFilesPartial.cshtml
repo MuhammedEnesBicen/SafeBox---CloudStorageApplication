@@ -1,62 +1,124 @@
 ﻿@model List<EntityLayer.Concrete.StorageFileInfo>
 
-@if (Model != null && Model.Count > 0)
+<style>
+    .fileOptions :hover {
+        background-color: rgba(123,12,234,0.34);
+    }
+
+    /* Extra small devices (phones, 600px and down) */
+    @@media only screen and (max-width: 600px) {
+    }
+
+    /* Small devices (portrait tablets and large phones, 600px and up) */
+    @@media only screen and (min-width: 600px) {
+        .fileDiv {
+            height: 10em;
+        }
+    }
+
+    /* Medium devices (landscape tablets, 768px and up) */
+    @@media only screen and (min-width: 768px) {
+    }
+
+    /* Large devices (laptops/desktops, 992px and up) */
+    @@media only screen and (min-width: 992px) {
+    }
+
+    /* Extra large devices (large laptops and desktops, 1200px and up) */
+    @@media only screen and (min-width: 1200px) {
+    }
+</style>
+
+@{
+    string getFileIcon(string fileExtension, string localDownloadUrl)
+    {
+        string result = "";
+
+        @if (fileExtension == "text/plain")
+        {
+            result = "~/images/textIcon.png";
+        }
+        else if (fileExtension.Contains("image"))
+        {
+            result = localDownloadUrl;
+        }
+        else
+        {
+            result = "unknowed.png";
+        }
+
+
+        return result;
+    }
+}
+
+@if (Model?.Count < 1)
 {
-    <div class="row">
+    <h5 style="color:red;">There is no file...</h5>
+}
+else
+{
+    <div class="row  m-0">
         @foreach (var item in Model)
         {
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-3 col-sm-4">
 
                 <div class="card" style="margin-bottom:2rem;">
-                    <div class="text-center rounded " style="height:15rem; background-color:white; ">
-                        <a href="@item.LocalDownloadUrl" target="_blank" >
-                            <div class="row h-100  " style="height:15rem;" >
+                    <div class="text-center rounded fileDiv" style="height:15em; background-color:white; ">
+                        <a href="@item.LocalDownloadUrl" target="_blank">
+                            <div class="row h-100  " style="height:15em;">
                                 <div class="col-12 my-auto">
+
+
                                     @if (item.Extension == "text/plain")
-                                    {<img class="img-fluid" src="~/images/textIcon.png" alt="Card image cap" style="max-height:100%; max-width:100%">
+                                    {
+                                        <img class="img-fluid" src="~/images/textIcon.png" alt="Card image cap" style="width: 35%; ">
                                     }
                                     else if (item.Extension.Contains("image"))
                                     {
-                                        <img class="img-fluid" src="@item.LocalDownloadUrl" alt="Card image cap" style="max-height:100%; max-width:100%">
+                                        <img class="img-fluid" src="@item.LocalDownloadUrl" alt="Card image cap" style="max-height:15em; object-fit:contain;   ">
                                     }
                                     else if (item.Extension.Contains("word"))
                                     {
-                                        <img class="img-fluid" src="~/images/msword.png" alt="Card image cap" style="max-height: 100%; max-width: 100%; width: 35%;">
+                                        <img class="img-fluid" src="~/images/msword.png" alt="Card image cap" style=" width: 35%;">
                                     }
                                     else if (item.Extension.Contains("video"))
                                     {
-                                        <img class="img-fluid  " src="~/images/film.png" alt="Card image cap" style="max-height: 100%; max-width: 100%; width: 35%;">
+                                        <img class="img-fluid  " src="~/images/film.png" alt="Card image cap" style=" width: 35%;">
                                     }
                                     else if (item.Extension.Contains("application/pdf"))
                                     {
-                                        <img class="img-fluid " src="~/images/pdf.png" alt="Card image cap" style="max-height: 100%; max-width: 100%; width: 35%;">
+                                        <img class="img-fluid " src="~/images/pdf.png" alt="Card image cap" style=" width: 35%;">
                                     }
                                     else if (item.Extension.Contains("rar"))
                                     {
-                                        <img class="img-fluid " src="~/images/rar.png" alt="Card image cap" style="max-height: 100%; max-width: 100%; width: 35%;">
+                                        <img class="img-fluid " src="~/images/rar.png" alt="Card image cap" style=" width: 35%;">
                                     }
-                                    else 
+                                    else
                                     {
-                                        <img class="img-fluid " src="~/images/unknowed.png" alt="Card image cap" style="max-height: 100%; max-width: 100%; width: 35%;">
+                                        <img class="img-fluid " src="~/images/unknowed.png" alt="Card image cap" style=" width: 35%;">
                                     }
+
                                 </div>
                             </div>
                         </a>
-                        </div>
+                    </div>
                     <div class="card-body text-center bg-light">
 
                         <a href="@item.LocalDownloadUrl" target="_blank" style="color:darkslategrey">
-                            <h6 class="card-title" style="height:3rem">@item.Name</h6>
+                            <h6 class="card-title" style="height:3rem" >@item.Name.Substring(0, (item.Name.Length>30?30:item.Name.Length)) @(item.Name.Length>30?"..":"")</h6>
+                            
                         </a>
                         <div class="row col-12 p-0" style="position:absolute; bottom:0px;">
 
-                            <a class="col-6 btn" href="/Home/DeleteFile?fileName=@item.Name">
+
+                            <a class="col-6 btn fileOptions" href="/Home/DeleteFile?fileName=@item.Name">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
 
 
-                            <div class="col-6 btn">
-                                <a href=" @item.LocalDownloadUrl ">
+                            <div class="col-6 btn fileOptions">
+                                <a href=" @item.LocalDownloadUrl " download rel="noopener noreferrer" target="_blank">
                                     <i class="fas fa-download"></i>
                                 </a>
                             </div>
@@ -70,7 +132,4 @@
         }
     </div>
 }
-else
-{
-    <h5 style="color:red;">There is no file...</h5>
-}
+
