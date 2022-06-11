@@ -1,7 +1,7 @@
 # SafeBox---CloudStorageApplication
 
 Bu proje Fırat Üniversitesi Yazılım Mühendisliği Bölümü YMGK(Yazılım Mühendisliği Güncel Konular) dersi proje ödevi olarak geliştirilmiştir.
-Dersin Hocaları: Fatih Özkaynak - Vahdettin Cem Baydoğan <br />
+Dersin Hocaları: Fatih Özkaynak - Beyzanur Durmuş <br />
 Öğrenci Bilgileri: Muhammed Enes Biçen - 180541012
 
 ### Bu projede kullanıcılara güvenli bir bulut depolama hizmeti vermek amaçlanmıştır.  Kullanıcıların sisteme yüklediği dosyalar AES algoritmasıyla şifrelenip bu şekilde FireBase' de saklanmakta ve kullanıcı dosyalarına erişmek istediğinde dosyaların şifreleri çözülmekte ve bu şekilde kullanıcıya sunulmakta.
@@ -12,6 +12,15 @@ Dersin Hocaları: Fatih Özkaynak - Vahdettin Cem Baydoğan <br />
 
 Aşağıda projenin birkaç görüntüsü bulunmaktadır. <br />
 Here is some pictures of project
+
+
+# Mobile 
+<div style="float:left;">
+<img src="https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/mobil1.jpeg" width="200px">
+  <img src="https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/mobil2.jpeg" width="200px">
+  <img src="https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/mobil3.jpeg" width="200px">
+
+</div>
 
 
 # Login Page
@@ -32,10 +41,4 @@ Here is some pictures of project
 # Email Validation Page
 ![](https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/emailvalidationpage.jpg)<br />
 
-# Mobile 
-<div style="float:left;">
-<img src="https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/mobil1.jpeg" width="200px">
-  <img src="https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/mobil2.jpeg" width="200px">
-  <img src="https://github.com/MuhammedEnesBicen/SafeBox---CloudStorageApplication/blob/master/SafeBox/wwwroot/images/githubpromotion/mobil3.jpeg" width="200px">
 
-</div>
