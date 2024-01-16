@@ -19,7 +19,7 @@ namespace ConsoleLayer
             FirebaseStorageHelper fbStorage = new FirebaseStorageHelper();
             User temp = new User
             {
-                UserId = 1,
+                //UserId = 1,
                 FirstName = "Enes",
                 LastName = "Biçen",
                 Mail = "muhammedenesbicen49@gmail.com",

@@ -1,57 +1,47 @@
-﻿using BusinessLayer.Concrete;
-using DataAccessLayer.Concrete;
-using EntityLayer.Concrete;
+﻿using DataAccessLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SafeBox.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace SafeBox.Controllers
 {
     public class LoginController : Controller
     {
         FirebaseHelper firebase = new FirebaseHelper();
-        static bool rememberMe = false; //is user click remember me checkbox?
-        static User user; // if user had wanted be remembered, this object will be initialized
 
         public IActionResult Index()
         {
+
             String mail = Request.Cookies["userMailCookie"];
             if (mail != null)
             {
                 String password = Request.Cookies["userPasswordCookie"];
-                rememberMe = true;
-                ViewBag.rememberMe = rememberMe;
-                user = new User { Mail = mail, Password = password };
+
+                LoginDTO user = new LoginDTO { Mail = mail, Password = password ,RememberMe=true};
                 return View(user);
             }
 
-            ViewBag.rememberMe = rememberMe;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(User postUser)
+        public IActionResult Index(LoginDTO credentials)
         {
-            ViewBag.rememberMe = rememberMe;
-            var result = firebase.GetUserWithMail(postUser.Mail).Result;
+            CookieOperations(credentials.RememberMe ? "save" : "delete", credentials.Mail, credentials.Password);
+            var result = firebase.GetUserWithMail(credentials.Mail).Result;
 
-            if(result is not null && result.Password == postUser.Password)
+            if(result is not null && result.Password == credentials.Password)
             {
-                if (rememberMe) CookieOperations("save", postUser.Mail, postUser.Password);
-                if (!rememberMe && user is not null) CookieOperations("delete", "", "");
-
-                HttpContext.Session.SetString("userMail", postUser.Mail);
+                
+                HttpContext.Session.SetString("userMail", credentials.Mail);
                 return RedirectToAction("Index","Home");
             }
 
             if(result == null) { ViewBag.message = "There is no such a user"; }
-            else if(result.Password != postUser.Password) { ViewBag.message = "Password is invalid"; }
+            else if(result.Password != credentials.Password) { ViewBag.message = "Password is invalid"; }
 
 
-            return View(postUser);
+            return View(credentials);
         }
 
         [HttpGet]
@@ -62,6 +52,7 @@ namespace SafeBox.Controllers
         }
         public void CookieOperations(string operation, string email, string password)
         {
+
             switch (operation)
             {
                 case "save":
@@ -79,10 +70,6 @@ namespace SafeBox.Controllers
             }
         }
 
-        [HttpPost]
-        public void ChangeRememberMeOption(bool value)
-        {
-            rememberMe = value;
-        }
+
     }
 }

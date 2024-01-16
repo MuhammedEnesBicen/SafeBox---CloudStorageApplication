@@ -6,20 +6,22 @@
     <title>@ViewData["Title"] - SafeBox</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link href="~/lib/font-awesome/css/fontawesome.css" rel="stylesheet" />
+    @* <link href="~/lib/font-awesome/css/fontawesome.css" rel="stylesheet" /> *@
 
-    
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   
 </head>
 <body>
     <header>
         <!-- TODO: ADjust header -->
         <nav class="container-fluid shadow">
-            <div class="row mb-5 border-bottom p-2 " style="align-items:center;">
+            <div class="row mb-5 border-bottom p-2 " style="align-items:center; background-color:white;">
                 @*<div class="col-md-3 col-sm-0"><a href="#" style="text-align:end; ">Download the app</a></div>*@
-                <div class="col-6"><img class="img-fluid" src="~/images/logo.svg" style="height:2rem;" /><span style="font-size:2rem; vertical-align:middle;  color:blue"> SafeBox</span></div>
+                <div class="col-6">
+                    <a  asp-controller="Promotion" asp-action="Index">
+                    <img class="img-fluid" src="~/images/logo.svg" style="height:2rem;" />
+                        <span style="font-size:2rem; vertical-align:middle;  color:dodgerblue;"> SafeBox</span>
+                    </a>
+                </div>
                 <div class="col-6 ">
                     <div class="row d-flex justify-content-end">
                         <a href="/Login/Index/">Login</a>
@@ -41,8 +43,11 @@
             &copy; 2022 - SafeBox
         </div>
     </footer>
-    
 
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

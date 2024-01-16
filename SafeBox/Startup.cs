@@ -1,15 +1,11 @@
+using DataAccessLayer.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SafeBox.Middlewares;
 using SafeBox.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SafeBox
 {
@@ -29,6 +25,8 @@ namespace SafeBox
             services.AddSession();
 
             services.AddSingleton<ILoggerService, ConsoleLogger>();
+            services.AddSingleton<FirebaseStorageHelper>();
+            services.AddSingleton<FirebaseHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,3 +63,5 @@ namespace SafeBox
         }
     }
 }
+
+

@@ -1,4 +1,4 @@
-﻿@model List<EntityLayer.Concrete.StorageFileInfo>
+﻿@model User
 @{
     Layout = null;
 }
@@ -10,21 +10,13 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
-    <link href="~/css/Home.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+    <link rel="stylesheet" href="~/css/Home.css" />
 
-
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         #mainArea {
             margin-left: 70px;
-            /* float: right;
-                                                                    background: #e2e2e2;
-                                                                    width: 100%;
-                                                                    height: 100%;*/
         }
 
 
@@ -34,7 +26,7 @@
             /*background-color: #04AA6D;*/
             color: white;
             /*padding: 16px;
-                                                            font-size: 16px;*/
+                                                                                    font-size: 16px;*/
             border: none;
         }
         /* The container <div> - needed to position the single-bar content */
@@ -80,7 +72,9 @@
         .single-bar:hover .fa-user-circle {
             /*background-color: dodgerblue;*/
         }
+
     </style>
+
 </head>
 
 <body>
@@ -89,10 +83,14 @@
         <nav class="container-fluid shadow">
             <div class="row mb-1 border-bottom ">
                 <div class="col-sm-3 col-6">
-                    <img class="img-fluid px-1" src="~/images/logo.svg" />
-                    <span style="font-size:2em">
-                        SafeBox
-                    </span>
+                    <a class="d-flex flex-row" asp-action="Index" asp-controller="Home">
+
+                        <img class="px-1" src="~/images/logo.svg" />
+                        <span style="font-size:2em; color:dodgerblue;">
+                            SafeBox
+                        </span>
+
+                    </a>
                 </div>
 
                 <div class="col-sm-6">
@@ -135,34 +133,41 @@
         <!-- Sidebar -->
         @await Html.PartialAsync("SideMenuBarPartial")
 
-        <div id="mainArea">
 
-            <form asp-controller="Home" asp-action="UploadFile" method="post"
+
+        <div id="mainArea">
+            <form asp-controller="File" asp-action="UploadFile" method="post" id="fileForm"
                   enctype="multipart/form-data">
-                <div class="container container-fluid g-0 pr-0">
-                    <div class="row p-0 col-12">
-                        <input class="form-control custom-file col-md-10 col-8" type="file" name="file" />
-                        <button class="btn btn-success col-md-2 col-4" type="submit" style="white-space:nowrap;">Upload File</button>
+
+                <div class="input-group">
+                    <div class="custom-file is-invalid">
+                        <input type="file" name="file" class="custom-file-input" id="validatedInputGroupCustomFile" required>
+                        <label class="custom-file-label" for="validatedInputGroupCustomFile">Choose file...</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit" style="white-space:nowrap;">Upload File</button>
                     </div>
                 </div>
             </form>
 
 
             <!-- File presentation area-->
-            <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-content" id="tabContent">
                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <div id="noFile" class="alert alert-danger text-center m-3" style="display:none;">There is no file...</div>
+
                     <div id="filesArea" class="container-fluid bg-light mt-3 p-0 g-0">
                         @*@await Html.PartialAsync("GetFilesPartial", (List<EntityLayer.Concrete.StorageFileInfo>)Model)*@
-                            <div style="height:80vh;display:flex;">
-                        <div class="spinner-border" style ="margin:  auto;" role="status">
-                            <span class="sr-only">Loading...</span>
+                        <div style="height:80vh;display:flex;">
+                            <div class="spinner-border" style="margin:  auto;" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
                         </div>
-                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
 
-                    @await Html.PartialAsync("ProfilePartial", (EntityLayer.Concrete.User)ViewBag.user)
+                    @await Html.PartialAsync("ProfilePartial", Model)
                 </div>
             </div>
         </div>
@@ -174,54 +179,113 @@
 </html>
 
 
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 <script>
-    $.get('/Home/InitOperations/').then(
-       function (){
-                  $.get('/Home/GetFilesPartial/').then(
-                  function (result){
-                      $('#filesArea').html(result);
-                  }
-              );}
-              );
-      function filterFiles() {
-          var filterText = $('#filterInput').val();
-          
-          
-          $.post('/Home/GetFilesPartial?filter=' + filterText).then(
-              function (result) {
-                  $('#filesArea').html(result);
-              }
-          );
-      }
-
-      function changeTab(tabName){
-          switch(tabName){
-              case "profile":
-              $.get('/Home/ProfilePartial/').then(
-                  function (result){
-                      $('#mainArea').html(result);
-                  }
-              );
-              changeActiveMenu("sideMenu2");
-              break;
-              case "home":
-              $.get('/Home/GetFilesPartial/').then(
-                  function (result){
-                      $('#mainArea').html(result);
-                  }
-              );
-              break;
-              default:
-              break;
-          }
-      }
-
-         function changeActiveMenu(menuId){
-          $("li[class='active']").removeClass('active').addClass('has-subnav');
-          $("#"+menuId).addClass('active').removeClass('has-subnav');
 
 
+    document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+        var fileName = document.getElementById("validatedInputGroupCustomFile").files[0].name;
+        var nextSibling = e.target.nextElementSibling
+        nextSibling.innerText = fileName
+    })
 
-      }
+    $.get('/File/GetFilesPartial/').then(
+        function (result) {
+            $('#filesArea').html(result);
+            files = result;
+            filterFiles();
+        }
+    );
+
+
+    document.querySelector('#filterInput').addEventListener('keyup', function (e) {
+        filterFiles();
+    });
+
+
+    function filterFiles() {
+        var tab = $("#fileForm").css("display");
+        if (tab == "none")
+            return;
+
+        var filterText = $('#filterInput').val();
+
+        var items = document.querySelectorAll('.fileItem');
+        let showedItemCount = 0;
+        items.forEach(function (item) {
+            if (item.innerText.toLowerCase().includes(filterText.toLowerCase())) {
+                // item.style.display = "block";
+                item.classList.remove("d-none");
+                showedItemCount++;
+            }
+            else {
+                // item.style.display = "none";
+                item.classList.add("d-none");
+            }
+        });
+        console.log("showedItemCount: " + showedItemCount);
+        if (showedItemCount < 1) {
+            $("#noFile").css("display", "block");
+
+        } else {
+            $("#noFile").css("display", "none");
+
+        }
+
+        // $.post('/File/GetFilesPartial?filter=' + filterText).then(
+        //     function (result) {
+        //         $('#filesArea').html(result);
+        //         files = result;
+        //     }
+        // );
+    }
+    var files;
+    $.get('/File/GetFilesPartial/').then(
+        function (result) {
+            files = result;
+        }
+    );
+
+    var profile;
+    $.get('/Profile/ProfilePartial/').then(
+        function (result) {
+            profile = result;
+        }
+    );
+
+
+    function changeTab(tabName) {
+        switch (tabName) {
+            case "profile":
+                $.get('/Profile/ProfilePartial/').then(
+                    function (result) {
+                        $('#filesArea').html(result);
+                        $("#fileForm").css("display", "none");
+                        $("#noFile").css("display", "none");
+                    }
+                );
+                
+                changeActiveMenu("sideMenu2");
+                break;
+            case "home":
+
+                $('#filesArea').html(files);
+                $("#fileForm").css("display", "block");
+                filterFiles();
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    function changeActiveMenu(menuId) {
+        $("li[class='active']").removeClass('active').addClass('has-subnav');
+        $("#" + menuId).addClass('active').removeClass('has-subnav');
+    }
 
 </script>

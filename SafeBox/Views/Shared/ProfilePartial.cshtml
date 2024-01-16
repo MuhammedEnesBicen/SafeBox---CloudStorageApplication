@@ -41,21 +41,19 @@
     <div class="col-md-6 rounded-2 bg-light p-3">
         <h4>Change Email</h4>
         <div class="dropdown-divider"></div>
-        <label>Your current email is: <b id="oldMailInfo">@Model.Mail</b></label>
+            <label>Your current email is: <span id="oldMailInfo" style="font-weight:bold;">@Model.Mail</span></label>
         <div class="form-group">
             <label>New Email</label>
             <input type="email" class="form-control" required id="newEmail" />
         </div>
         <div class="right-w3l">
-            <input id="submitemail" type="submit" class="form-control" value="Send me validation code" style="background: purple; color:white"> @*#fdb03d*@
+                <input id="submitemail" type="submit" class="form-control" value="Change Email" style="background: purple; color:white"> 
         </div>
-        <div class="form-group">
-            <label class="pt-5">Validation Code</label>
-            <input type="text" class="form-control" required id="valCode" />
-        </div>
-
-        <div id="submitValCode" class="right-w3l">
-            <input  type="submit" class="form-control" value="Change Email" style="background: gray; color:white" disabled> @*#fdb03d*@
+        <div>
+            <br />
+            <mark>
+                Because of gmails regulations, SafeBox currently can't send validation code to your new email address. So pay attention to write yor new mail correctly.
+            </mark>
         </div>
     </div>
 
@@ -85,6 +83,7 @@
 </div>
 </div>
 <script>
+
     $('#confirm_password').on('keyup', function () {
         if ($('#password').val() == $('#confirm_password').val()) {
             $('#message').html('Matching').css('color', 'green');
@@ -102,7 +101,7 @@
             $('#message').html('Password must be at least 4 characters.').css('color', 'red');
         }
         else {
-            $.post('/Home/ChangePassword?oldPassword=' + password + "&newPassword=" + newPassword)
+            $.post('/Profile/ChangePassword?oldPassword=' + password + "&newPassword=" + newPassword)
                 .then(function (result) {
                     if (result.result) {
                         Swal.fire({
@@ -129,11 +128,22 @@
         var newEmail = $('#newEmail').val();
 
 
+        if (!(/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(newEmail))) {
+            Swal.fire({
+                title: 'Email Change',
+                text: "You didn't enter a valid email address !",
+                icon: 'Error',
+            });
+            return;
+        }
 
-        $.post("/Home/ChangeEmail?newMail=" + newEmail +"&valCode="+null+ "&whichOperation=" + "newEmailInput")
+
+        $.post("/Profile/ChangeEmail?newMail=" + newEmail )
             .then(function (result) {
                 if (result.result) {
                     $('#submitValCode').html('<input  type="submit" class="form-control" value="Change Email" style="background: yellow; color:white" enabled>')
+                    $('#oldMailInfo').text(newEmail);
+                    console.log($('#oldMailInfo').text());
                 }
                 Swal.fire({
                     title: 'Email Change',
@@ -145,31 +155,13 @@
 
     });
 
-    $('#submitValCode').click(function () {
-        var newEmail = $('#newEmail').val();
-        var valCode = $('#valCode').val();
 
-        $.post("/Home/ChangeEmail?newMail=" + newEmail + "&valCode=" + valCode + "&whichOperation=" + "valCode")
-            .then(function (result) {
-                if (result.result) {
-                    
-                    $('#oldMailInfo').html(newEmail);
-                }
-                Swal.fire({
-                    title: 'Email Change',
-                    text: result.message,
-                    icon: 'info',
-                })
-
-            });
-
-    });
 
     function changeInfos() {
         var userFirstName = $('#userFirstName').val();
         var userLastName = $('#userLastName').val();
 
-        $.post("/Home/ChangeUserInfos?firstName=" + userFirstName + "&lastName=" + userLastName)
+        $.post("/Profile/ChangeUserInfos?firstName=" + userFirstName + "&lastName=" + userLastName)
             .then(function (result) {
                 Swal.fire({
                     title: 'Info Change',

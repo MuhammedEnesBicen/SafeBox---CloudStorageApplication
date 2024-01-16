@@ -27,45 +27,37 @@
     /* Extra large devices (large laptops and desktops, 1200px and up) */
     @@media only screen and (min-width: 1200px) {
     }
+
+/*     .fileItem{
+        display: block !important
+    } */
 </style>
 
-@{
-    string getFileIcon(string fileExtension, string localDownloadUrl)
-    {
-        string result = "";
-
-        @if (fileExtension == "text/plain")
-        {
-            result = "~/images/textIcon.png";
-        }
-        else if (fileExtension.Contains("image"))
-        {
-            result = localDownloadUrl;
-        }
-        else
-        {
-            result = "unknowed.png";
-        }
-
-
-        return result;
-    }
-}
-
-@if (Model?.Count < 1)
+@if(TempData["message"] != null)
 {
-    <h5 style="color:red;">There is no file...</h5>
+    <p class="alert alert-info">@TempData["message"]</p>
+    <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Reload</a>
+}
+@if (TempData["sessionMsg"] != null)
+{
+    <p class="alert alert-info">@TempData["sessionMsg"]</p>
+    <a class="btn btn-primary" asp-action="Index" asp-controller="Login">Go Login Page</a>
+}
+@if (Model == null || Model?.Count < 1)
+{
+    @* <h5 style="color:red;">There is no file...</h5> *@
 }
 else
 {
-    <div class="row  m-0">
+
+    <div class="row  m-0 mt-2">
         @foreach (var item in Model)
         {
-            <div class="col-md-3 col-sm-4">
+            <div class="col-md-3 col-sm-4 fileItem">
 
-                <div class="card" style="margin-bottom:2rem;">
+                <div class="card " style="margin-bottom:2rem;">
                     <div class="text-center rounded fileDiv" style="height:15em; background-color:white; ">
-                        <a href="@item.LocalDownloadUrl" target="_blank">
+                        <a href="@item.DownloadUrl" target="_blank">
                             <div class="row h-100  " style="height:15em;">
                                 <div class="col-12 my-auto">
 
@@ -76,7 +68,7 @@ else
                                     }
                                     else if (item.Extension.Contains("image"))
                                     {
-                                        <img class="img-fluid" src="@item.LocalDownloadUrl" alt="Card image cap" style="max-height:15em; object-fit:contain;   ">
+                                        <img class="img-fluid" src="@item.DownloadUrl" alt="@item.Name" style="max-height:15em; object-fit:contain;   ">
                                     }
                                     else if (item.Extension.Contains("word"))
                                     {
@@ -105,23 +97,23 @@ else
                     </div>
                     <div class="card-body text-center bg-light">
 
-                        <a href="@item.LocalDownloadUrl" target="_blank" style="color:darkslategrey">
+                        <a href="@item.DownloadUrl" target="_blank" style="color:darkslategrey">
                             <h6 class="card-title" style="height:3rem" >@item.Name.Substring(0, (item.Name.Length>30?30:item.Name.Length)) @(item.Name.Length>30?"..":"")</h6>
                             
                         </a>
                         <div class="row col-12 p-0" style="position:absolute; bottom:0px;">
 
 
-                            <a class="col-6 btn fileOptions" href="/Home/DeleteFile?fileName=@item.Name">
-                                <i class="fas fa-trash-alt"></i>
+                            <a class="col-6 btn fileOptions" href="/File/DeleteFile?fileName=@item.Name">
+                                <div> <i class="fas fa-trash-alt"></i></div>
                             </a>
 
 
-                            <div class="col-6 btn fileOptions">
-                                <a href=" @item.LocalDownloadUrl " download rel="noopener noreferrer" target="_blank">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </div>
+
+                            <a class="col-6 btn fileOptions " href="@item.DownloadUrl" download="@item.Name" target="_blank" rel="noreferrer ">
+                                <div><i class="fas fa-download"></i></div>
+                            </a>
+                          
 
                         </div>
 

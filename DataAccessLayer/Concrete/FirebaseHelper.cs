@@ -95,8 +95,8 @@ namespace DataAccessLayer.Concrete
               {
                   Name = item.Object.Name,
                   DownloadUrl = item.Object.DownloadUrl,
-                  LocalDownloadUrl = "files/" + userFbKey + "/decrypted/" +
-                        item.Object.Name,
+                 // LocalDownloadUrl = "files/" + userFbKey + "/decrypted/" +
+                    //    item.Object.Name,
                   Extension = item.Object.Extension,
                   FileSize = item.Object.FileSize
 

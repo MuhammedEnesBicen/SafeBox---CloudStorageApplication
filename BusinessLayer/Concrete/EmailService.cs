@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Net.Mail;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EntityLayer.Concrete;
 
 namespace BusinessLayer.Concrete
 {
+    /// <summary>
+    ///  Due to regulations of Google, this service is not working anymore.
+    ///  And for this reason, this service is not used in the project.
+    /// </summary>
     public class EmailService
     {
         public ResultModel SendEmail(string email)
@@ -37,10 +37,11 @@ namespace BusinessLayer.Concrete
 
                 SmtpServer.Port = 587;
                 SmtpServer.Host = "smtp.gmail.com";
-                SmtpServer.EnableSsl = true;
+                
                 SmtpServer.UseDefaultCredentials = false;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("firatabs23@gmail.com", "Enes125@");
-
+                SmtpServer.Credentials = new System.Net.NetworkCredential("firatabs23@gmail.com", "");// Password of account should added to second parameter
+                SmtpServer.EnableSsl = true;
+                SmtpServer.TargetName = "STARTTLS/smtp.gmail.com";
                 SmtpServer.Send(maila);
                 validationCode = mesaj;
 
